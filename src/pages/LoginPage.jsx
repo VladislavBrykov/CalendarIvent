@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './login.css';
-
+alert
 const styles = {//Стили для страницы
     position: 'absolute',
     top: '70px',
@@ -39,6 +39,7 @@ export default ({
 
         let role = res.data.rp
         role = role.role;
+        console.log(role + "role");
         console.log(res.data.rp)
 
         if (role === "admin") {
@@ -46,7 +47,7 @@ export default ({
             localStorage.jwtToken = res.data.jwtToken   //https://learn.javascript.ru/localstorage
             localStorage.role = res.data.rp.role        //https://learn.javascript.ru/localstorage
             localStorage.id = res.data.rp.id
-            alert(localStorage.jwtToken);
+            //alert(localStorage.jwtToken);
             //setDataFromServer(res.data)
         }
         else if (role === "user") {
@@ -54,7 +55,7 @@ export default ({
             localStorage.jwtToken = res.data.jwtToken   //https://learn.javascript.ru/localstorage
             localStorage.role = res.data.rp.role        //https://learn.javascript.ru/localstorage
             localStorage.id = res.data.rp.id
-            alert(localStorage.jwtToken);
+            //alert(localStorage.jwtToken);
             //setDataFromServer(res.data)
         }
     }
@@ -73,7 +74,7 @@ export default ({
                             <label>Введите Ваш имейл</label>
                             <input type="email" name="auth_email" onChange={e => changeUserData({ ...UserData, email: e.target.value })} placeholder="Введите Ваш имейл" id="email" required ></input>
 
-                            <button className="form_auth_button" type="button" name="form_auth_submit" onClick={() => loadData()}><Link to="/calendar">Login</Link></button>
+                            <button className="form_auth_button" type="button" name="form_auth_submit" onClick={() => loadData()}><Link to="/">Login</Link></button>
 
                             <button className="form_auth_button" type="button" ><Link to="/password-reset">Восстановление пароля</Link></button>
                         </form>
@@ -82,5 +83,4 @@ export default ({
             </div>
         </div>
     );
-
 };

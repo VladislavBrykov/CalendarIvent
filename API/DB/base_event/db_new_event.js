@@ -1,4 +1,4 @@
-function db_new_event(start, end, title, description, token) {
+function db_new_event(start, end, title, description, token, calendar) {
     const mysql = require("mysql2");
 
     const connection = mysql.createConnection({
@@ -9,12 +9,11 @@ function db_new_event(start, end, title, description, token) {
     });
 
     return new Promise((resolve, reject) => {
-        const create_db = "CREATE DATABASE IF NOT EXISTS project";
-        connection.query(create_db, function(err, results) {
-            if(err) console.log(err);
-            console.log(results);
-        });
-        
+        const create = require('../createTable/createTable')
+        create.createTable()
+        setTimeout(nw_event, 1500);
+       function nw_event() { 
+       
         const db = "USE project";
         connection.query(db, function(err, results) {
             if(err) console.log(err);
@@ -32,19 +31,20 @@ function db_new_event(start, end, title, description, token) {
                 let id_user = results[0];
                 id_user = id_user.id;
 
-                const db_users = "CREATE TABLE IF NOT EXISTS myevent (id int(10) unsigned NOT NULL AUTO_INCREMENT, id_user int(10), start varchar(30) NOT NULL, end varchar(30) NOT NULL, title varchar(300) NOT NULL, description varchar(1000) NOT NULL, PRIMARY KEY (id));"
-                connection.query(db_users, function(err, results) {
-                    if(err) console.log(err);
-                    else {
-                        let holid = [id_user, start, end, title, description];
-                        const sql_1 = `INSERT INTO myevent(id_user, start, end, title, description) VALUES(?, ?, ?, ?, ?)`;
+               // const db_users = "CREATE TABLE IF NOT EXISTS base_myevent (id int(10) unsigned NOT NULL AUTO_INCREMENT, id_user int(10), start varchar(30) NOT NULL, end varchar(30) NOT NULL, title varchar(300) NOT NULL, description varchar(1000) NOT NULL, name_calendar varchar(100) NOT NULL, PRIMARY KEY (id));"
+               // connection.query(db_users, function(err, results) {
+               //     if(err) console.log(err);
+               //     else {
+                        let holid = [id_user, start, end, title, description, calendar];
+                        const sql_1 = `INSERT INTO base_myevent(id_user, start, end, title, description, name_calendar) VALUES(?, ?, ?, ?, ?, ?)`;
                         connection.query(sql_1, holid,);
                         console.log("sozdano");
                         resolve(true);     
-                    }  
-                });
+                   // }  
+                //});
             }
         });
+    }
     });
 }
 

@@ -3,24 +3,33 @@ const nodemailer = require('nodemailer')
 
 let testEmailAccount = await nodemailer.createTestAccount()
 
+let nodemailer = require('nodemailer');
+
 let transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'stackoverflow.brykov@gmail.com',
-      pass: 'Vladislav5'
-    },
-  })
+  host: 'smtp.gmail.com',
+  port: '465',
+  secure: true,
 
-let link = "Ваш ключ ключ подтверждения для восстановления пароля " + id.toString();
+  auth: {
+    user: 'chronos5ucode@gmail.com',
+    pass: 'Vladislav5'
+  }
+});
 
-let result = await transporter.sendMail({
-  from: '<stackoverflow.brykov@gmail.com>',
+let mailOptions = {
+  from: 'chronos5ucode@gmail.com',
   to: email,
-  subject: 'Message from Node js',
-  text: link
-})
+  subject: 'Password reset',
+  text: "Ваш ключ ключ подтверждения для восстановления пароля " + id.toString()
+};
 
-console.log(result)
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
 
 }
 

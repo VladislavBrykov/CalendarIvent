@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import './login.css';
 import React, { Component }  from 'react';
 
-
-
 function RegistrationPage() {
     const styles = {//Стили для страницы
         position: 'absolute',

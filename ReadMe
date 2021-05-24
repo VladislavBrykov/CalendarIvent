@@ -1,0 +1,18 @@
+What is it?
+
+
+A calendar is a very important tool for any small business owner, freelancer, self-employed. A well-written calendar is essential for what you have to do.
+
+Even if your business does not require a rush, there is a good chance that you will have important calls scheduled for days or even weeks. You need a way to appreciate that you will be free at important times. Relying on your memory is not the best approach. In such cases, the calendar comes to the rescue.
+
+Again, if someone asks you to be available for something, you need to know if you can respond positively to such a request. If you do not have a calendar in which all your events are scheduled, you can always have events scheduled that can be scheduled for different things at the same time. Your big client will call you on the phone during a teleconference with your big client!
+
+
+How should I make it?
+
+1. Install the last version mysql
+2. create database project; (if not EXISTS)
+3. /CalendarIvent-master/API - npm install
+4. /CalendarIvent-master/API - start server - node index.js
+5. /CalendarIvent-master - npm install
+6. /CalendarIvent-master - npm run start

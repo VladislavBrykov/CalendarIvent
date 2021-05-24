@@ -9,11 +9,16 @@ function db_logout(jwt_token) {
     });
 
     return new Promise((resolve, reject) => {
-        const create_db = "CREATE DATABASE IF NOT EXISTS project";
-        connection.query(create_db, function(err, results) {
-            if(err) console.log(err);
-            console.log(results);
-        });
+        const create = require('../createTable/createTable')
+        create.createTable()
+        setTimeout(logout, 1500);
+        function logout() { 
+
+        // const create_db = "CREATE DATABASE IF NOT EXISTS project";
+        // connection.query(create_db, function(err, results) {
+        //     if(err) console.log(err);
+        //     console.log(results);
+        // });
        
         const db = "USE project";
         connection.query(db, function(err, results) {
@@ -32,11 +37,11 @@ function db_logout(jwt_token) {
     let id = results[0];
     id = id.id;
 
-       const db_t = "CREATE TABLE IF NOT EXISTS online (id_user INT(10) NOT NULL, role_user varchar(100) NOT NULL);"
-       connection.query(db_t, function(err, results) {
-           if(err) console.log(err);
-           console.log(results);
-       });
+    //    const db_t = "CREATE TABLE IF NOT EXISTS online (id_user INT(10) NOT NULL, role_user varchar(100) NOT NULL);"
+    //    connection.query(db_t, function(err, results) {
+    //        if(err) console.log(err);
+    //        console.log(results);
+    //    });
 
         let online = "off";
         let idd = id;
@@ -52,6 +57,7 @@ function db_logout(jwt_token) {
     }
        });
             });
+        }
     });
 }
 

@@ -21,7 +21,7 @@ function db_new_reg_token(user_id, token) {
             console.log(results);
         });
 
-        const db_categories = "CREATE TABLE tokens (id INT(100) NOT NULL, reg_token CHAR(254) NOT NULL, jwt_token CHAR(254), pass_token CHAR(254), used CHAR(10) DEFAULT \"false\");"
+        const db_categories = "CREATE TABLE IF NOT EXISTS tokens (id INT(100) NOT NULL, reg_token CHAR(254) NOT NULL, jwt_token CHAR(254), pass_token CHAR(254), used CHAR(10) DEFAULT \"false\");"
 
         connection.query(db_categories, function(err, results) {
             if(err) console.log(err);

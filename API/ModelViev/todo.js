@@ -10,10 +10,10 @@ const router = Router();
 const bodyParser = require("body-parser");
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended: true}));
-
+ 
 /*-----------Authentication module----------------*/ 
 /*------------------------------------------------*/
-// Регистрация
+// Регистрация  +
 router.post('/auth/register', (req, res) => {
 	let data = req.body;
 	console.log(data);
@@ -59,7 +59,7 @@ router.post('/auth/register', (req, res) => {
 	})
 });
 
-//токен подтверждение
+//токен подтверждение +
 router.get('/auth/register/:token', (req, res) => {
 	let token = req.params.token;
 
@@ -80,7 +80,7 @@ router.get('/auth/register/:token', (req, res) => {
 	})
 });
 
-//Логин
+//Логин +
 router.post('/auth/login', (req, res) => {
 	let data = req.body;
 	if(!data.login)
@@ -120,7 +120,7 @@ router.post('/auth/login', (req, res) => {
 	})
 });
 
-// log out authorized user
+// log out authorized user +
 router.post('/auth/logout', (req, res) => {
 	let data = req.headers;
 	console.log(data.authorization);
@@ -144,7 +144,7 @@ router.post('/auth/logout', (req, res) => {
 });
 
 
-// восстановление пароля запрос на почту
+// восстановление пароля запрос на почту -
 router.post('/auth/password-reset', (req, res) => {
 	let data = req.body;
 	console.log(data);
@@ -177,7 +177,7 @@ router.post('/auth/password-reset', (req, res) => {
 });
 
 
-//восстановление пароля с кодом (на мейл)
+//восстановление пароля с кодом (на мейл) -
 router.post('/auth/password-reset/:confirm_token', (req, res) => {
 	let data = req.body;
 	let email_password = data.token;
@@ -205,7 +205,7 @@ router.post('/auth/password-reset/:confirm_token', (req, res) => {
 
 router.get('/holidays/:date', (req, res) => {
 	let date = req.params.date;
-
+console.log(date + "date");
 	new Promise((resolve, reject) => {
 		const result = require('../DB/holidays/db_holidays')
 		result.db_holidays(date)
@@ -245,7 +245,7 @@ router.get('/holiday/:id', (req, res) => {
 
 
 
-//добавить новый ивент
+//добавить новый ивент +
 router.post('/mycalendar', (req, res) => {
 	let token = req.headers.authorization
 	let data = req.body;
@@ -272,11 +272,31 @@ router.post('/mycalendar', (req, res) => {
 
 
 
-//удалить ивент
+//удалить ивент +
+router.patch('/event', (req, res) => {
+	let data = req.body;
+	new Promise((resolve, reject) => {
+		const result = require('../DB/events/db_delete_event')
+		result.db_delete_event(data.event_id)
+			.then(response => {
+				if (response) {
+					resolve(response);
+				} else {
+					reject(0)
+				}
+			})
+	}).then(rp => {
+		res.json({status: true, rp});
+	}).catch(() => {
+		res.status(403).json('Check your input');
+
+	})
+});
+
+//все ивенты +
 router.get('/event', (req, res) => {
 	let token = req.headers.authorization
-	
-
+	console.log(token + " token get");
 	new Promise((resolve, reject) => {
 		const result = require('../DB/events/db_all_event')
 		result.db_all_event(token)
@@ -295,24 +315,282 @@ router.get('/event', (req, res) => {
 	})
 });
 
+//все ивенты base_myevent +
+router.get('/base_myevent', (req, res) => {
+	let token = req.headers.authorization
+	console.log(token + " token get");
+	new Promise((resolve, reject) => {
+		const result = require('../DB/base_event/get_base_myevent.js')
+
+		result.db_base_myevent(token)
+			.then(response => {
+				if (response) {
+					resolve(response);
+				} else {
+					reject(0)
+				}
+			})
+	}).then(rp => {
+		res.json({status: true, rp});
+	}).catch(() => {
+		res.status(403).json('Check your input');
+
+	})
+});
+
+//добавить новый календарь +
+router.post('/new_calendar', (req, res) => {
+	let token = req.headers.authorization
+	let data = req.body;
+	console.log(data);
+	console.log(token);
+
+	new Promise((resolve, reject) => {
+		const result = require('../DB/base_event/base_calendar')
+		result.db_base_calendar(data.nameTable, data.description, token)
+			.then(response => {
+				if (response) {
+					resolve(response);
+				} else {
+					reject(0)
+				}
+			})
+	}).then(rp => {
+		res.json({status: true, rp});
+	}).catch(() => {
+		res.status(403).json('Check your input');
+
+	})
+});
+
+
+//get One event from public calendars
+router.get('/event/:name', (req, res) => {
+	let calendar = req.params.name;
+	//let data = req.body;
+	let token = req.headers.authorization
+
+	if(req.headers.id)
+		console.log(req.headers.id);
+
+
+	new Promise((resolve, reject) => {
+		const result = require('../DB/base_event/one_base_calendar')
+		result.one_base_calendar(calendar, token)
+			.then(response => {
+				if (response) {
+					resolve(response);
+				} else {
+					reject(0)
+				}
+			})
+	}).then(rp => {
+		res.json({status: true, rp});
+	}).catch(() => {
+		res.json({status: false, error: "user exists"})
+	})
+});
+
+
+//get One event from public calendars
+router.get('/public_event/:name', (req, res) => {
+	let calendar = req.params.name;
+	//let data = req.body;
+	let token = req.headers.authorization
+
+	if(req.headers.id)
+		console.log(req.headers.id);
+
+
+	new Promise((resolve, reject) => {
+		const result = require('../DB/base_event/public_one_base_calendar')
+		result.public_one_base_calendar(calendar, token)
+			.then(response => {
+				if (response) {
+					resolve(response);
+				} else {
+					reject(0)
+				}
+			})
+	}).then(rp => {
+		res.json({status: true, rp});
+	}).catch(() => {
+		res.json({status: false, error: "user exists"})
+	})
+});
+
+
+//добавить новый ивент в один из календарей +
+router.post('/event/:calendar', (req, res) => {
+	let calendar = req.params.calendar;
+
+	let token = req.headers.authorization
+	let data = req.body;
+	console.log(data);
+	console.log(calendar);
+	console.log(token);
+
+	new Promise((resolve, reject) => {
+		const result = require('../DB/base_event/db_new_event')
+		result.db_new_event(data.start, data.end, data.title, data.description, token, calendar)
+			.then(response => {
+				if (response) {
+					resolve(response);
+				} else {
+					reject(0)
+				}
+			})
+	}).then(rp => {
+		res.json({status: true, rp});
+	}).catch(() => {
+		res.status(403).json('Check your input');
+
+	})
+});
 
 
 
+//удалить один из моих календарей +
+router.delete('/delete_myevent', (req, res) => {
+	let token = req.headers.authorization
+	let name = req.headers.name
+	let description = req.headers.description
+	let id_user = req.headers.id_user
+	console.log(token);
+	console.log(name);
+	console.log(description);
+	console.log(id_user);
+
+
+	new Promise((resolve, reject) => {
+		const result = require('../DB/base_event/db_del_calendar')
+		result.db_del_calendar(token, name, description, id_user)
+			.then(response => {
+				if (response) {
+					resolve(response);
+				} else {
+					reject(0)
+				}
+			})
+	}).then(rp => {
+		//const result = require('../DB/users/db_delete_user')
+		//let del = result.db_delete_user(user_id)
+		res.json({status: true});
+	}).catch(() => {
+		res.status(403).json('not root');
+
+	})
+});
+
+//сделать календарь общедоступным +
+router.post('/public_calendar', (req, res) => {
+	let token = req.headers.authorization
+	let data = req.body;
+
+console.log(data);
+	new Promise((resolve, reject) => {
+		const result = require('../DB/public_calendar/db_public_calendar')
+		result.db_public_calendar(data.name_table, token)
+			.then(response => {
+				if (response) {
+					resolve(response);
+				} else {
+					reject(0)
+				}
+			})
+	}).then(rp => {
+		//const result = require('../DB/users/db_delete_user')
+		//let del = result.db_delete_user(user_id)
+		res.json({status: true});
+	}).catch(() => {
+		res.status(403).json('not root');
+
+	})
+});
+
+//поделиться ивентом +
+router.post('/mail_event', (req, res) => {
+	let token = req.headers.authorization
+	let data = req.body;
+	console.log(data);
+	console.log(token);
+	console.log(data);
+
+	new Promise((resolve, reject) => {
+		const result = require('../DB/base_event/get_base_myevent.js')
+		result.db_base_myevent(token)
+			.then(response => {
+				if (response) {
+					resolve(response);
+				} else {
+					reject(0)
+				}
+			})
+	}).then(rp => {
+		
+		const result = require('../DB/base_event/mail_event')
+		result.fly_mail(data.event_id, data.title, data.description, data.start, data.end, data.mail); //отправили риглашение на почту
+		res.json({status: true});
+	}).catch(() => {
+		res.status(403).json('login or mail is already taken');
+
+	})
+});
 
 
 
+//все public ивенты base_myevent +
+router.get('/base_public_myevent', (req, res) => {
+	let token = req.headers.authorization
+	console.log(token + " token get");
+	new Promise((resolve, reject) => {
+		const result = require('../DB/base_event/get_base_public_myevent.js')
+
+		result.db_base_myevent(token)
+			.then(response => {
+				if (response) {
+					resolve(response);
+				} else {
+					reject(0)
+				}
+			})
+	}).then(rp => {
+		res.json({status: true, rp});
+	}).catch(() => {
+		res.status(403).json('Check your input');
+
+	})
+});
 
 
+//удалить один из общих календарей +
+router.patch('/delete_public_myevent', (req, res) => {
+	let token = req.body
+	let data = req.body;
+	data = data.body
+	token = token.headers
 
+console.log(data.Name);
+console.log(token);
+	new Promise((resolve, reject) => {
+		const result = require('../DB/public_calendar/db_del_public_calendar.js')
+		result.db_del_public_calendar(data.Name, token.Authorization)
+			.then(response => {
+				if (response) {
+					resolve(response);
+				} else {
+					reject(0)
+				}
+			})
+	}).then(rp => {
+		//const result = require('../DB/users/db_delete_user')
+		//let del = result.db_delete_user(user_id)
+		res.json({status: true});
+	}).catch(() => {
+		res.status(403).json('not root');
 
-
-
-
-
-
-
-
-
+	})
+});
 
 // //добавить avatar
 // router.post('/users/avatar', upload.single('image'), (req, res) => {

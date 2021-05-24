@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import './main.css';
 import React, { Component }  from 'react';
 
-
-
 function MainPage() {
     const styles = {//Стили для страницы
         position: 'absolute',

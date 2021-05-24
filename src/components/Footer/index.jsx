@@ -10,13 +10,13 @@ export default ({ }) => {
     <div class="footer">
       <div className="buttons">
         <div className="link-wrapper">
-          <Link to='/'>About</Link>
+          <Link to='/exemple-calendar'>Отзывы</Link>
         </div>
         <div className="link-wrapper">
-          <Link to='/'>Technical Support</Link>
+          <Link to='/calendar'>Контакты</Link>
         </div>
         <div className="link-wrapper">
-          <Link to='/'>Opportunities</Link>
+          <Link to='/share_calendar'>О проекте</Link>
         </div>
       </div>
     </div>

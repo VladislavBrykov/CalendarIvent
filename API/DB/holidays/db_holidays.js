@@ -9,19 +9,18 @@ function db_holidays(date) {
     });
 
     return new Promise((resolve, reject) => {
-        const create_db = "CREATE DATABASE IF NOT EXISTS project";
-        connection.query(create_db, function(err, results) {
-            if(err) console.log(err);
-            console.log(results);
-        });
-        
+        // const create_db = "CREATE DATABASE IF NOT EXISTS project";
+        // connection.query(create_db, function(err, results) {
+        //     if(err) console.log(err);
+        //     console.log(results);
+        // });
+
         const db = "USE project";
         connection.query(db, function(err, results) {
             if(err) console.log(err);
             console.log(results);
         });
-
-
+        
             const sqll = `SELECT * FROM holidays WHERE date = ?`;
             console.log(sqll);
 
@@ -33,20 +32,10 @@ function db_holidays(date) {
              
                     let a = results;
 
-               
-
-                    // a = {
-                    //     login: a.login,
-                    //     headding: a.headding,
-                    //     body: a.body,
-                    //     date: a.date
-                    // }
                     console.log(a);
 
                     resolve(a);
-              
-               
-                
+
             });
         });
 }

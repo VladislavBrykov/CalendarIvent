@@ -14,8 +14,6 @@ function db_one_holiday(id) {
             if(err) console.log(err);
             console.log(results);
         });
-
-
             const sqll = `SELECT * FROM holidays WHERE id = ?`;
             console.log(sqll);
 
@@ -23,24 +21,9 @@ function db_one_holiday(id) {
             connection.query(sqll, date, function(err, results) {
                 if(err) console.log(err);
                 console.log(results)
-
-             
                     let a = results;
-
-               
-
-                    // a = {
-                    //     login: a.login,
-                    //     headding: a.headding,
-                    //     body: a.body,
-                    //     date: a.date
-                    // }
                     console.log(a);
-
                     resolve(a);
-              
-               
-                
             });
         });
 }

@@ -1,75 +1,134 @@
 :root {
-    --main-blue: #17408b;
-    --main-red: #c9082a;
-  }
-  
-  body {
-    background: linear-gradient(
-      to right,
-      var(--main-blue) 50%,
-      var(--main-red) 50%
-    );
-  }
-  
+  --main-blue: #17408b;
+  --main-red: #c9082a;
+}
+
+body {
+  background: linear-gradient( to right, var(--main-blue) 50%, var(--main-red) 50%);
+}
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  margin: 0 auto;
+  width: 70%;
+  height: 10px;
+  background: white;
+  padding-bottom: 10rem;
+}
+
+.App>.links {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  background: #2a1a41;
+}
+
+.links>li {
+  padding: 1.4rem 1rem;
+  text-decoration: none;
+  color: white;
+}
+
+a {
+  text-decoration: none;
+}
+
+.links>li>a {
+  color: white;
+}
+
+.links>li>a:hover {
+  color: var(--main-red);
+}
+
+.n-font {
+  font-size: 1.3rem;
+  font-family: "Oswald", sans-serif;
+}
+
+@media screen and (max-width: 1367px) {
   .App {
-    font-family: sans-serif;
-    text-align: center;
-    margin: 0 auto;
-    width: 90%;
-    height: 10px;
+    padding-bottom: 2rem;
+  }
+}
+
+@media screen and (max-width: 967px) {
+  body {
     background: white;
-    padding-bottom: 10rem;
+    margin: -1rem auto;
   }
-  
-  .App > .links {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    list-style: none;
-    background: #2a1a41;
+  .App {
+    width: 100%;
+    padding-bottom: 1rem;
   }
-  
-  .links > li {
-    padding: 1.4rem 1rem;
-    text-decoration: none;
-    color: white;
-  }
-  
-  a {
-    text-decoration: none;
-  }
-  
-  .links > li > a {
-    color: white;
-  }
-  
-  .links > li > a:hover {
-    color: var(--main-red);
-  }
-  
   .n-font {
-    font-size: 1.3rem;
-    font-family: "Oswald", sans-serif;
+    font-size: 2.5vw;
   }
-  
-  @media screen and (max-width: 1367px) {
-    .App {
-      padding-bottom: 2rem;
-    }
-  }
-  
-  @media screen and (max-width: 967px) {
-    body {
-      background: white;
-      margin: -1rem auto;
-    }
-    .App {
-      width: 100%;
-      padding-bottom: 1rem;
-    }
-    .n-font {
-      font-size: 2.5vw;
-    }
-  }
-  
+}
+
+.modal-window-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+}
+
+.modal-window-wrapper>.bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 11;
+  background: #000;
+  opacity: .3;
+}
+
+.modal-window-wrapper>.modal-window {
+  padding: 20px;
+  position: relative;
+  z-index: 12;
+  min-width: 50%;
+  max-width: 70%;
+  max-height: 70%;
+  border-radius: 10px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.modal-window-wrapper>.modal-window>.modal-window-close {
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.modal-window-wrapper>.modal-window>.delete-event {
+  background: wheat;
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 10px;
+  color: brown;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.modal-window-wrapper>.modal-window>.delete-event:hover {
+  cursor: pointer;
+}
+
+.rbc-calendar {
+  background: white;
+}
+

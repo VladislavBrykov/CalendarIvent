@@ -1,0 +1,36 @@
+.sidebar {
+	position: absolute;
+}
+
+.btn-group .button {
+	margin-top: 10px;
+	background-color: #ec7804;
+	/* Green */
+	color: rgb(0, 0, 0);
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	font-size: 16px;
+	cursor: pointer;
+	width: 176px;
+	display: flex;
+	/* -block, +flex */
+}
+
+.btn-group .button:not(:last-child) {
+	border-bottom: none;
+	/* Prevent double borders */
+}
+
+.btn-group .button:hover {
+	background-color: #70edf8;
+}
+
+.btn-group a {
+	/* плюс стили для ссылок */
+	width: 100%;
+	font-weight: bold;
+	color: black;
+	text-decoration: none;
+	text-align: center;
+}

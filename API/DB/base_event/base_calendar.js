@@ -1,4 +1,4 @@
-function db_all_event(token) {
+function db_base_calendar(nameTable, description, token) {
     const mysql = require("mysql2");
 
     const connection = mysql.createConnection({
@@ -11,8 +11,8 @@ function db_all_event(token) {
     return new Promise((resolve, reject) => {
         const create = require('../createTable/createTable')
        create.createTable()
-       setTimeout(all_event, 1500);
-       function all_event() { 
+       setTimeout(bs_calendar, 1500);
+       function bs_calendar() { 
 
         const db = "USE project";
         connection.query(db, function(err, results) {
@@ -22,7 +22,7 @@ function db_all_event(token) {
 
         const sqll = `SELECT id FROM tokens WHERE jwt_token = ?`;
         connection.query(sqll, token, function(err, results) {
-            if(err) {
+            if(!results[0]) {
                 console.log("err");
                 resolve (false);
             }
@@ -31,16 +31,17 @@ function db_all_event(token) {
                 let id_user = results[0];
                 id_user = id_user.id;
 
-                    const sqll = `SELECT * FROM myevent WHERE id_user = ?`;
-                    console.log(sqll);
-
-                    connection.query(sqll, id_user, function(err, results) {
-                        if(err) console.log(err);
-                            console.log(results)
-                            let a = results
-                            console.log(a);
-                            resolve(a);
-                    });  
+                //const db_users = "CREATE TABLE IF NOT EXISTS base_calendars (id_user int(10), name_table varchar(100) NOT NULL, description varchar(700) NOT NULL);"
+                //connection.query(db_users, function(err, results) {
+                //    if(err) console.log(err);
+                    //else {
+                        let event = [id_user, nameTable, description];
+                        const sql_1 = `INSERT INTO base_calendars(id_user, name_table, description) VALUES(?, ?, ?)`;
+                        connection.query(sql_1, event,);
+                        console.log("sozdano");
+                        resolve(true);     
+                   // }  
+                //});
             }
         });
     }
@@ -48,5 +49,5 @@ function db_all_event(token) {
 }
 
 module.exports = {
-    db_all_event: db_all_event
+    db_base_calendar: db_base_calendar
 }

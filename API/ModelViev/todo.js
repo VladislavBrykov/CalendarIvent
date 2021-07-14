@@ -13,7 +13,7 @@ router.use(bodyParser.urlencoded({extended: true}));
  
 /*-----------Authentication module----------------*/ 
 /*------------------------------------------------*/
-// Регистрация  +
+// Registration
 router.post('/auth/register', (req, res) => {
 	let data = req.body;
 	console.log(data);
@@ -29,8 +29,7 @@ router.post('/auth/register', (req, res) => {
 	new Promise((resolve, reject) => {
 		const result = require('../DB/log_reg/db_registration')
 		if(!data.role_user)
-			role_user = "admin";  //если не указана роль пользователя - по дефолту - админ
-			console.log("hello");
+			role_user = "admin";  										//default admin
 		result.db_registration(data.login, hashPass, data.email, role_user)
 			.then(response => {
 				if (response) {
@@ -46,8 +45,8 @@ router.post('/auth/register', (req, res) => {
 		const result_db_new_reg_token = require('../DB/token/db_new_reg_token')
 		result_db_new_reg_token.db_new_reg_token(rp.id, regToken); //записали в бд новый токен регистрации
 		function func() {
-		const status_reg_token = require('../DB/token/status_reg_token');
-		status_reg_token.status_reg_token(rp.id)
+			const status_reg_token = require('../DB/token/status_reg_token');
+			status_reg_token.status_reg_token(rp.id)
 		}
 		setTimeout(func, 360000) //время жизни токена 1 час, после чего токен и юзер удаляется
 		const resultTokenMail = require('../Controller/reg_token_mail')
@@ -113,7 +112,7 @@ router.post('/auth/login', (req, res) => {
 			const status_online = require('../DB/log_reg/db_logout');
 			status_online.db_logout(rp.id)
 			}
-		 	setTimeout(func, 8640000) //время жизни токена 24 часf, после чего узера вылогинивает
+		setTimeout(func, 8640000) //время жизни токена 24 часf, после чего узера вылогинивает
 		res.json({status: true, rp, jwtToken: jwtToken});
 	}).catch(() => {
 		res.status(401).json('user not found, check your input');
@@ -139,7 +138,6 @@ router.post('/auth/logout', (req, res) => {
 		res.json({status: true, rp});
 	}).catch(() => {
 		res.status(403).json('error logout');
-
 	})
 });
 
@@ -149,7 +147,6 @@ router.post('/auth/password-reset', (req, res) => {
 	let data = req.body;
 	console.log(data);
 	
-
 	new Promise((resolve, reject) => {
 		const result = require('../DB/users/db_search_id_for_email')
 		result.db_search_id_for_email(data.email)
@@ -165,14 +162,11 @@ router.post('/auth/password-reset', (req, res) => {
 		let passToken = pass_token.new_token(); //получили токен для восстановления пароля
 		const result_db_new_pass_token = require('../DB/token/db_new_pass_token')
 		result_db_new_pass_token.db_new_pass_token(passToken, rp.id); //записали в бд новый токен pass
-		
-		
 		const result = require('../Controller/pass_reset')
 	 	result.pass_reset(passToken, data.email);
 		res.json({status: true});
 	}).catch(() => {
 		res.status(500).json('server error');
-
 	})
 });
 
@@ -266,7 +260,6 @@ router.post('/mycalendar', (req, res) => {
 		res.json({status: true, rp});
 	}).catch(() => {
 		res.status(403).json('Check your input');
-
 	})
 });
 
@@ -289,7 +282,6 @@ router.patch('/event', (req, res) => {
 		res.json({status: true, rp});
 	}).catch(() => {
 		res.status(403).json('Check your input');
-
 	})
 });
 
@@ -311,7 +303,6 @@ router.get('/event', (req, res) => {
 		res.json({status: true, rp});
 	}).catch(() => {
 		res.status(403).json('Check your input');
-
 	})
 });
 
@@ -334,7 +325,6 @@ router.get('/base_myevent', (req, res) => {
 		res.json({status: true, rp});
 	}).catch(() => {
 		res.status(403).json('Check your input');
-
 	})
 });
 
@@ -359,7 +349,6 @@ router.post('/new_calendar', (req, res) => {
 		res.json({status: true, rp});
 	}).catch(() => {
 		res.status(403).json('Check your input');
-
 	})
 });
 
@@ -367,12 +356,10 @@ router.post('/new_calendar', (req, res) => {
 //get One event from public calendars
 router.get('/event/:name', (req, res) => {
 	let calendar = req.params.name;
-	//let data = req.body;
 	let token = req.headers.authorization
 
 	if(req.headers.id)
 		console.log(req.headers.id);
-
 
 	new Promise((resolve, reject) => {
 		const result = require('../DB/base_event/one_base_calendar')
@@ -395,12 +382,10 @@ router.get('/event/:name', (req, res) => {
 //get One event from public calendars
 router.get('/public_event/:name', (req, res) => {
 	let calendar = req.params.name;
-	//let data = req.body;
 	let token = req.headers.authorization
 
 	if(req.headers.id)
 		console.log(req.headers.id);
-
 
 	new Promise((resolve, reject) => {
 		const result = require('../DB/base_event/public_one_base_calendar')
@@ -423,7 +408,6 @@ router.get('/public_event/:name', (req, res) => {
 //добавить новый ивент в один из календарей +
 router.post('/event/:calendar', (req, res) => {
 	let calendar = req.params.calendar;
-
 	let token = req.headers.authorization
 	let data = req.body;
 	console.log(data);
@@ -444,7 +428,6 @@ router.post('/event/:calendar', (req, res) => {
 		res.json({status: true, rp});
 	}).catch(() => {
 		res.status(403).json('Check your input');
-
 	})
 });
 
@@ -473,12 +456,9 @@ router.delete('/delete_myevent', (req, res) => {
 				}
 			})
 	}).then(rp => {
-		//const result = require('../DB/users/db_delete_user')
-		//let del = result.db_delete_user(user_id)
 		res.json({status: true});
 	}).catch(() => {
 		res.status(403).json('not root');
-
 	})
 });
 
@@ -499,8 +479,6 @@ console.log(data);
 				}
 			})
 	}).then(rp => {
-		//const result = require('../DB/users/db_delete_user')
-		//let del = result.db_delete_user(user_id)
 		res.json({status: true});
 	}).catch(() => {
 		res.status(403).json('not root');
@@ -527,13 +505,11 @@ router.post('/mail_event', (req, res) => {
 				}
 			})
 	}).then(rp => {
-		
 		const result = require('../DB/base_event/mail_event')
 		result.fly_mail(data.event_id, data.title, data.description, data.start, data.end, data.mail); //отправили риглашение на почту
 		res.json({status: true});
 	}).catch(() => {
 		res.status(403).json('login or mail is already taken');
-
 	})
 });
 
@@ -543,9 +519,9 @@ router.post('/mail_event', (req, res) => {
 router.get('/base_public_myevent', (req, res) => {
 	let token = req.headers.authorization
 	console.log(token + " token get");
+
 	new Promise((resolve, reject) => {
 		const result = require('../DB/base_event/get_base_public_myevent.js')
-
 		result.db_base_myevent(token)
 			.then(response => {
 				if (response) {
@@ -558,7 +534,6 @@ router.get('/base_public_myevent', (req, res) => {
 		res.json({status: true, rp});
 	}).catch(() => {
 		res.status(403).json('Check your input');
-
 	})
 });
 
@@ -569,9 +544,9 @@ router.patch('/delete_public_myevent', (req, res) => {
 	let data = req.body;
 	data = data.body
 	token = token.headers
+	console.log(data.Name);
+	console.log(token);
 
-console.log(data.Name);
-console.log(token);
 	new Promise((resolve, reject) => {
 		const result = require('../DB/public_calendar/db_del_public_calendar.js')
 		result.db_del_public_calendar(data.Name, token.Authorization)
@@ -583,12 +558,9 @@ console.log(token);
 				}
 			})
 	}).then(rp => {
-		//const result = require('../DB/users/db_delete_user')
-		//let del = result.db_delete_user(user_id)
 		res.json({status: true});
 	}).catch(() => {
 		res.status(403).json('not root');
-
 	})
 });
 

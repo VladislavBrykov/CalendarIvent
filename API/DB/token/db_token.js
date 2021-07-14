@@ -21,12 +21,6 @@ function db_token(id) {
             console.log(results);
         });
 
-        // const db_posts = "CREATE TABLE IF NOT EXISTS posts (id int(10) unsigned NOT NULL AUTO_INCREMENT, title varchar(700) NOT NULL, content TEXT(7000) NOT NULL, id_categiries int(10) NOT NULL, id_user int(10) NOT NULL, status varchar(15) NOT NULL, PRIMARY KEY (id));"
-        // connection.query(db_posts, function(err, results) {
-        //     if(err) console.log(err);
-        //     console.log(results);
-        // });
-
         const sqll = `SELECT jwt_token FROM tokens WHERE id = ?`;
         connection.query(sqll, id, function(err, results) {
             if(!results[0]) {

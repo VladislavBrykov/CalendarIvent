@@ -9,7 +9,6 @@ function db_delete_event(event_id) {
     });
 
     return new Promise((resolve, reject) => {
-
         const create = require('../createTable/createTable')
         create.createTable()
         setTimeout(del_myevent, 1500);
@@ -17,7 +16,7 @@ function db_delete_event(event_id) {
             const db = "USE project";
             connection.query(db, function(err, results) {
                 if(err) console.log(err);
-                console.log(results);
+                    console.log(results);
             });
             connection.query('DELETE FROM myevent WHERE id = ?', [event_id]);
             resolve(true);     

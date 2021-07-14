@@ -21,13 +21,11 @@ function status_reg_token(id) {
             console.log(results);
         });
 
- 
-    
         const sqll = `SELECT used FROM tokens WHERE id = ?`;
         connection.query(sqll, id, function(err, results) {
             if(err) 
                 resolve(false);
-                else {
+            else {
             results = results[0];
             results = results.used;
             console.log(results + "!!!!!!!!!!!!!!!")
@@ -38,17 +36,8 @@ function status_reg_token(id) {
                     connection.query('DELETE FROM online WHERE id_user = ?', [id]);
                     console.log("delete from users and tokens");
                  }
-            
-                // else if(results == "true") {
-                //     connection.query('DELETE FROM tokens WHERE id = ?', [id]);
-                //     console.log("delete true");
-                // }
-                }
-});
-        
-            
-
- 
+            }
+        });
     });
 }
 

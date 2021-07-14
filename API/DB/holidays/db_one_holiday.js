@@ -14,18 +14,19 @@ function db_one_holiday(id) {
             if(err) console.log(err);
             console.log(results);
         });
-            const sqll = `SELECT * FROM holidays WHERE id = ?`;
-            console.log(sqll);
-
-            date = [id];
-            connection.query(sqll, date, function(err, results) {
-                if(err) console.log(err);
+        
+        const sqll = `SELECT * FROM holidays WHERE id = ?`;
+        console.log(sqll);
+        date = [id];
+        
+        connection.query(sqll, date, function(err, results) {
+            if(err) console.log(err);
                 console.log(results)
-                    let a = results;
-                    console.log(a);
-                    resolve(a);
-            });
+            let a = results;
+            console.log(a);
+            resolve(a);
         });
+    });
 }
 
 module.exports = {

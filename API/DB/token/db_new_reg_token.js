@@ -27,29 +27,26 @@ function db_new_reg_token(user_id, token) {
             if(err) console.log(err);
             console.log(results);
         });
-
-
-            let user = [user_id, token];
-            const sqll = `INSERT INTO tokens(id, reg_token) VALUES(?, ?)`;
+        let user = [user_id, token];
+        const sqll = `INSERT INTO tokens(id, reg_token) VALUES(?, ?)`;
             
-            connection.query(sqll, user, function(err, results) {
-                if(err) console.log(err);
+        connection.query(sqll, user, function(err, results) {
+            if(err) console.log(err);
                 console.log(results)
 
-                if (results) {
-                    let a;
+            if (results) {
+                let a;
 
-                    a = {
-                        server_status: "true"
-                    }
-                    console.log(a);
-
-                    resolve(a);
-                } else {
+                a = {
+                    server_status: "true"
+                }
+                console.log(a);
+                resolve(a);
+                } 
+                else {
                     resolve(false);
                 }
-            });
- 
+        });
     });
 }
 

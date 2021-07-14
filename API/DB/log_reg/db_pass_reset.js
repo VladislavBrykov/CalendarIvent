@@ -21,8 +21,6 @@ function db_pass_reset(password, token) {
             console.log(results);
         });
 
-
-
         const sqll = `SELECT id FROM tokens WHERE pass_token = ?`;
         connection.query(sqll, token, function(err, results) {
             if(!results[0]) {
@@ -30,12 +28,10 @@ function db_pass_reset(password, token) {
                 resolve (false);
             }
             else {
-            console.log(results);
-            let id = results[0]
-            id = id.id
-           
-    
-        connection.query('UPDATE users SET password = ? WHERE id = ?', [password, id]);
+                console.log(results);
+                let id = results[0]
+                id = id.id
+                connection.query('UPDATE users SET password = ? WHERE id = ?', [password, id]);
                 
                 let a = {
                     new_password: "true"
@@ -43,8 +39,7 @@ function db_pass_reset(password, token) {
                 resolve(a);
             }
             resolve(false);
-        });
-            
+        });      
     });
 }
 

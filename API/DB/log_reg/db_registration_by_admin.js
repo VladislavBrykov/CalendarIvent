@@ -35,7 +35,6 @@ function db_registration_by_admin(username, password, email, role_user, token, i
             connection.query(sqll, id, function(err, results) {
                 if(err)
                     resolve(false)
-
                 let myRes = results[0];
                 myRes = myRes.jwt_token
                 console.log(myRes + "mysres");
@@ -43,70 +42,56 @@ function db_registration_by_admin(username, password, email, role_user, token, i
                 if(token != myRes) 
                     resolve(false);
 
-                if(token === myRes) {
-                  
+                if(token === myRes) {   
+                    let users = [username, password, email];
+                    const sql = `INSERT INTO users(login, password, email) VALUES(?, ?, ?)`;
+                    connection.query(sql, users, function(err, results) {
+                        if(err) {
+                            console.log(err);
+                            let error = toString(err[0]);
+                            error = error.sqlMessage;
+                            resolve (error);
+                        }
 
+                        const sqll = `SELECT id FROM users WHERE login = ?`;
+                        console.log(sqll);
 
-        let users = [username, password, email];
-        const sql = `INSERT INTO users(login, password, email) VALUES(?, ?, ?)`;
-        connection.query(sql, users, function(err, results) {
-            if(err) {
-                console.log(err);
-                let error = toString(err[0]);
+                        users = [username];
+                        connection.query(sqll, users, function(err, results) {
+                            if(err) 
+                                resolve(false);
 
-                error = error.sqlMessage;
-                resolve (error);
-            }
+                            if (results) {
+                                let a = results[0]
+                                console.log(a.id);
+                                let users = [a.id, role_user];
+                                const db_role_user = "CREATE TABLE IF NOT EXISTS role_user (id_user INT(10) NOT NULL, role_user varchar(100) default \"user\");"
+                                connection.query(db_role_user, function(err, results) {
+                                    if(err) console.log(err);
+                                        console.log(results);
+                                    const sql = `INSERT INTO role_user(id_user, role_user) VALUES(?, ?)`;
+                                    connection.query(sql, users, function(err, results) { 
+                                        if(err) console.log(err);
+                                            let idd = a.id;
+                                            let online = "off";
+                                            let id = [idd, online];
 
-
-            const sqll = `SELECT id FROM users WHERE login = ?`;
-            console.log(sqll);
-
-            users = [username];
-            connection.query(sqll, users, function(err, results) {
-                if(err) 
-                    resolve(false);
-
-                if (results) {
-                    let a = results[0]
-                    console.log(a.id);
-
-                    let users = [a.id, role_user];
-
-                    const db_role_user = "CREATE TABLE IF NOT EXISTS role_user (id_user INT(10) NOT NULL, role_user varchar(100) default \"user\");"
-                    connection.query(db_role_user, function(err, results) {
-                        if(err) console.log(err);
-                        console.log(results);
-                    
-
-                    const sql = `INSERT INTO role_user(id_user, role_user) VALUES(?, ?)`;
-                        connection.query(sql, users, function(err, results) { 
-                            if(err) console.log(err);
-
-                            let idd = a.id;
-                            let online = "off";
-                            let id = [idd, online];
-
-                            const db_online = "CREATE TABLE IF NOT EXISTS online (id_user INT(10) NOT NULL, role_user varchar(100) NOT NULL);"
-                            connection.query(db_online, function(err, results) {
-                                if(err) console.log(err);
-                                console.log(results);
-                            
-
-                                const sqlll = `INSERT INTO online(id_user, role_user) VALUES(?, ?)`;
-                                connection.query(sqlll, id);
-                                resolve(a.id);
-                            });
-                            
+                                        const db_online = "CREATE TABLE IF NOT EXISTS online (id_user INT(10) NOT NULL, role_user varchar(100) NOT NULL);"
+                                        connection.query(db_online, function(err, results) {
+                                            if(err) console.log(err);
+                                            console.log(results);
+                                            const sqlll = `INSERT INTO online(id_user, role_user) VALUES(?, ?)`;
+                                            connection.query(sqlll, id);
+                                            resolve(a.id);
+                                        });
+                                    });
+                                });   
+                            } 
                         });
                     });
-                    
-                } 
+                }
             });
-        });
-    }
     });
-});
 }
 
 module.exports = {

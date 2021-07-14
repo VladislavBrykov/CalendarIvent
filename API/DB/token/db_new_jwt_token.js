@@ -21,26 +21,23 @@ function db_new_jwt_token(user_id, token) {
             console.log(results);
         });
 
-       
-            connection.query('UPDATE tokens SET jwt_token = ? WHERE id = ?', [token, user_id]) 
-            
-            connection.query(sqll, user, function(err, results) {
+        connection.query('UPDATE tokens SET jwt_token = ? WHERE id = ?', [token, user_id])     
+        connection.query(sqll, user, function(err, results) {
                 if(err) console.log(err);
                 console.log(results)
 
                 if (results) {
                     let a;
-
                     a = {
                         server_status: "true"
                     }
                     console.log(a);
-
                     resolve(a);
-                } else {
+                } 
+                else {
                     resolve(false);
                 }
-            });
+        });
  
     });
 }

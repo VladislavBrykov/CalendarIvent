@@ -10,7 +10,7 @@ export default ({
   return (
     <div className="modal-window-wrapper">
       <div className="bg" onClick={closeModal} />
-      <div className="modal-window">
+        <div div className="modal-window">
         <div className="modal-window-close" onClick={closeModal} >close</div>
         <h1>Event</h1>
         <h3>Title: {currentEvent.title}</h3>

@@ -4,8 +4,8 @@ function new_token() {
       
     for (var i = 0; i < 100; i++)
         text += possible.charAt(Math.floor(Math.random() * possible.length));
-        console.log(text);
-        return text;
+    console.log(text);
+    return text;
 }
     
 module.exports = {

@@ -12,7 +12,6 @@ class AppMenu extends React.Component {
           this.props.loggedIn === "admin" || this.props.loggedIn === "user"
             ? this.props.loggedIn === "user"
               ? <div className="btn-group">
-                {/* <button className="button"><Link to="/accaunt">Кабинет user</Link></button> */}
                 <button className="button"><Link to="/">Главная</Link></button>
                 <button className="button"><Link to="/calendar">Календарь праздников</Link></button>
                 <button className="button"><Link to="/exemple-calendar">Главный календарь</Link></button>
@@ -35,8 +34,6 @@ class AppMenu extends React.Component {
               <button className="button">Гость</button>
               <button className="button"><Link to="/">Главная</Link></button>
               <button className="button"><Link to="/calendar">Календарь праздников</Link></button>
-              {/* <button className="button"><Link to="/users">Участники</Link></button>
-              <button className="button"><Link to="/posts">Посты</Link></button> */}
             </div>
         }
       </div>

@@ -19,7 +19,6 @@ document.querySelector(".fa-caret-left").addEventListener("click", nextMonth);
 document.querySelector(".fa-caret-right").addEventListener("click", prevMonth);
 
 const now = new Date();
-//for testing purposes use 'let' instead of 'const'
 const todayDay = now.getDay(),
 	todayDate = now.getDate(),
 	todayMonth = now.getMonth(),
@@ -191,7 +190,6 @@ if (!colorsFound) {
 	applyTheme();
 }
 
-//update local storage
 function updateLocalStorage() {
 	let currentNotes = notes;
 	localStorage.setItem("notes", JSON.stringify(currentNotes));
@@ -226,10 +224,8 @@ currentYearDOM.innerHTML = todayYear;
 var currentFullYear = analyizYear(state.todayYear);
 var currentFullMonth = currentFullYear.months[monthsStr[state.todayMonth]];
 
-//run App
 showCalenderInfo();
 
-//exp: analyizYear(2019) will get you all months length,first day,last day with indexes
 function analyizYear(year) {
 	let counter = 0;
 	const currentYear = {
@@ -262,7 +258,6 @@ function analyizYear(year) {
 	}
 	return currentYear;
 }
-//exp: run analyizMonth(String:'Dec',Int:2019) note:(must capitalize month like Sep,Nov)
 function analyizMonth(month, year) {
 	const testDays = 31;
 	let counter = 0;
@@ -296,7 +291,6 @@ function analyizMonth(month, year) {
 	return monthObj;
 }
 
-//get last month days in current month view
 function makePrevMonthArr(firstDayIndex) {
 	let prevMonthIdx;
 	let prevMonthDays;
@@ -313,16 +307,8 @@ function makePrevMonthArr(firstDayIndex) {
 	}
 
 	return result;
-	//**** previous version of this code was returning just days without state
-	//**** like [1,2,3] instead of day and its state like [{day:1,"prevMonth"}]
-	// return Array.from(
-	// 	{ length: firstDayIndex },
-	// 	(_, i) => prevMonthDays - firstDayIndex + i
-	// );
 }
-// this will print an array of with days of prev month and next month crosponds to the calender table
 function calcMonthCalendar() {
-	// Create array: [1, 2, 3, ..., 30, 31]
 	const currMonth = Array.from(
 		{ length: currentFullMonth.days_length },
 		(_, i) => ({ day: i + 1, state: "currMonth" })
@@ -333,8 +319,6 @@ function calcMonthCalendar() {
 		(_, i) => ({ day: i + 1, state: "nextMonth" })
 	);
 
-	// Create a flat array with leading zeros and trailing last week:
-	// [0, 0, 0, 0, 1, 2, 3, ..., 30, 31, 1, 2, 3, 4, 5, 6, 7]
 	const flatResultArr = [
 		...makePrevMonthArr(currentFullMonth.first_day_index),
 		...currMonth,
@@ -357,12 +341,10 @@ function printMonthCalendarInDOM() {
 	let currentMonthEnd = true;
 	for (let i = 0; i < 6; i++) {
 		let currentWeek = monthArr[i];
-		//
 		const week = document.querySelector("#table-body").children[i];
 		for (let j = 0; j < 7; j++) {
 			week.children[j].style.backgroundColor = "white";
 			week.children[j].style.opacity = 1;
-			// console.log(currentWeek[j].day);
 			if (currentWeek[j].day === 1) {
 				currentMonthStarted = true;
 			}
@@ -393,13 +375,10 @@ function printMonthCalendarInDOM() {
 							`;
 					week.children[j].classList.add("tooltip-container");
 				}
-				// week.children[j].innerHTML = viewNote;
-				// week.children[j].id = notesFound.id;
 
 				week.children[
 					j
 				].innerHTML = `${currentWeek[j].day}<img  id="todayLogo" src='https://png2.cleanpng.com/sh/8bf4e7fd67b71cbb64dd54c37b191c92/L0KzQYm3VMIzN6JofZH0aYP2gLBuTgRifKVxkZ99b3TkiX7wk711cJYyfNNELYTkhMX2j710d59sRdd3Z3zsg7m0hPF6NWQ9RadqZHPlQITrUPU2a2E4RqgDNkC3RoeBUcUzPGU2SqYCN0C4SIm1kP5o/kisspng-tattly-today-is-the-day-tattoo-song-english-day-38-5adcb03d0e5c03.6860466815244124770588.png'  /> ${viewNote}`;
-				// week.children[j].innerHTML = currentWeek[j].day;
 				week.children[j].id = "current-day";
 				week.children[j].classList.add("currMonth");
 				week.children[j].style.backgroundColor = "#e1e1e1";
@@ -420,7 +399,6 @@ function printMonthCalendarInDOM() {
 					week.children[j].classList.remove("tooltip-container");
 				}
 				if (currentWeek[j].state == "currMonth") {
-					//exp 2019 10 24
 					week.children[j].classList.add("currMonth");
 					let currentFullDate =
 						currentFullMonth.year +
@@ -450,7 +428,6 @@ function printMonthCalendarInDOM() {
 					}
 				}
 			}
-			// console.log("xZx: ", currentWeek[j]);
 		}
 	}
 }
@@ -592,7 +569,6 @@ document.body.addEventListener("click", e => {
 	if (e.target.parentElement.parentElement.id == "table-body") {
 		if (e.target.classList.contains("tooltip-container")) {
 			verbWord = "Edit";
-			// deleteBtnInPopup.style.display = "display";
 			noteId = e.target.id;
 			console.log("noteId:", noteId);
 			if (noteId == "current-day") {
@@ -619,13 +595,6 @@ document.body.addEventListener("click", e => {
 			}
 			console.log("Add New Note");
 			verbWord = "Create";
-			//delete two below
-			// noteDate =
-			// 	currentFullMonth.year +
-			// 	" " +
-			// 	currentFullMonth.month +
-			// 	" " +
-			// 	e.target.innerHTML;
 			console.log("zZz");
 
 			openModal(true);
@@ -638,8 +607,6 @@ document.body.addEventListener("click", e => {
 		verb.innerHTML = verbWord;
 	} else if (e.target.classList.contains("fa-sticky-note")) {
 		verbWord = "Edit";
-		// deleteBtnInPopup.style.display = "display";
-
 		console.log("edit note (sticky)");
 		noteId = e.target.parentElement.parentElement.id;
 		if (noteId == "current-day") {
@@ -649,7 +616,6 @@ document.body.addEventListener("click", e => {
 		} else {
 			note = notes.filter(n => n.id == noteId);
 		}
-		// note = notes.filter(n => n.id == noteId);
 		noteDate = note[0].date;
 		console.log("note:", note);
 		openModal(true);
@@ -787,9 +753,3 @@ mql.addListener(function(m) {
 		makeClockTikTok();
 	}
 });
-
-//things i regret about this project:
-//1- i didnt use a design pattern !
-//2- i used date object as a string instead of date formate in notes
-//3- as the feauters progress i end up with a spagheti code ! sorry :(
-// FACT: it wouldn't be possible without the builtin date object "new Date()" thanks javascript !
